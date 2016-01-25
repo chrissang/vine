@@ -16,9 +16,11 @@ var modularpattern = (function () {
 				issues.push(item);
 			});
 		win.issuesArray = issues;
-		console.log(win);
+		//console.log(win);
+
 		var total_number_issues = win.issuesArray.length;
 		var number_pages = Math.ceil(total_number_issues/25);
+
 		modularpattern.displayPages(1);
 		showPagingButtons(number_pages);
 	});
@@ -30,6 +32,9 @@ var modularpattern = (function () {
 		var startingIndex = (page_number - 1) * 25;
 		$('#results').html("");
 
+		//Underscore template
+		var compiled = _.template($('#issues_template').html());
+
 		for (var i = startingIndex; i < win.issuesArray.length; i++) {
 			counter++
 
@@ -37,76 +42,73 @@ var modularpattern = (function () {
 			var output = getOutput(win.issuesArray[i]);
 
 			// Display Results
-			$('#results').append(output);
+			var d = compiled({items:output});
 
+			
+			$('#results').append(d);
+
+			// Limit results per page
 			if (counter == 25) {
 				break;
 			} 
 		};
+		$('li').click(function(event) {
+
+			var detailItems = [
+				{
+					detail_issue_title: win.issuesArray[$(this).index()].title,
+					detail_issue_state: win.issuesArray[$(this).index()].state,
+					detail_issue_labels: win.issuesArray[$(this).index()].labels,
+					detail_issue_user_name: win.issuesArray[$(this).index()].user.login,
+					detail_issue_user_avatar_url: win.issuesArray[$(this).index()].user.avatar_url,
+					detail_issue_full_body: win.issuesArray[$(this).index()].body,
+					detail_issue_full_comments: win.issuesArray[$(this).index()].comments
+				}
+			]
+			// console.log($(this).index());
+			console.log(win.issuesArray[$(this).index()]);
+			// console.log(win.issuesArray[$(this).index()].title);
+			// console.log(win.issuesArray[$(this).index()].state);
+			// console.log(win.issuesArray[$(this).index()].labels);
+			// console.log(win.issuesArray[$(this).index()].user.login);
+			// console.log(win.issuesArray[$(this).index()].user.avatar_url);
+			// console.log(win.issuesArray[$(this).index()].body);
+			// console.log(win.issuesArray[$(this).index()].comments);
+
+			
+			//window.open(location);
+			var popup = window.open('details.html');
+			$(popup.document).load(function() {
+    			console.log(('loaded'));
+    			// do other things
+			});
+			//modularpattern.displayDetailPages(detailItems);
+		});
+
 		counter = 0;
 		}
 	};
 
 	// Build Output
 	function getOutput(item){
-		var issue_number = item.number;
-		var issue_title = item.title;
-		var issue_labels = item.labels;
-		var user_name = item.user.login;
-		var user_avatar_url = item.user.avatar_url;
-		var body = charlimit(item.body);
 
-		//Build Output String
-		var output = '<a>' + 
-		'<li>' +
-		'<div class="list-left">' +
-		'<h3>'+user_name+'</h3>' +
-		'<img src="'+user_avatar_url+'">' +
-		'</div>' +
-
-		'<div class="list-right">' +
-		'<h3>'+issue_title+'</h3>' +
-		'<small>Issue Number: '+issue_number+'</small><br/>' +
-		'<small>Labels: '+issue_labels+'</small><br/>' +
-		'<small>Issue: '+body+'</small><br/>' +
-		'</div>' +
-		'</li>' +
-		'</a>' +
-		'<div class="clearfix"></div>' +
-		'';
-		
-		return output;
+		var items = [
+			{
+				issue_number: item.number,
+				issue_title: item.title,
+				issue_labels: item.labels,
+				user_name: item.user.login,
+				user_avatar_url: item.user.avatar_url,
+				body: charlimit(item.body)
+			}
+		]
+		return items;		
 	}
 
 	// Build Output
-	function getDetailOutput(item){
-		var issue_title = item.title;
-		var issue_labels = item.labels;
-		var user_name = item.user.login;
-		var user_avatar_url = item.user.avatar_url;
-		var body = item.body;
-		var state = item.state;
+	function getDetailOutput(){
 
-		console.log(user_name);
-
-		//Build Output String
-		// var detailOutput = '<li>' +
-		// '<div class="list-left">' +
-		// '<h3>'+user_name+'</h3>' +
-		// '<img src="'+user_avatar_url+'">' +
-		// '</div>' +
-
-		// '<div class="list-right">' +
-		// '<h3>'+issue_title+'</h3>' +
-		// '<small>State: '+state+'</small><br/>' +
-		// '<small>Labels: '+issue_labels+'</small><br/>' +
-		// '<small>Issue: '+body+'</small><br/>' +
-		// '</div>' +
 		
-		// '<div class="clearfix"></div>' +
-		// '';
-		
-		// return detailOutput;
 	}
 	
 	// Get first 140 characters of the body
@@ -126,4 +128,10 @@ var modularpattern = (function () {
 		};
 	}
 })();
+
+$(document).ready(function() {
+    $('#list_item').click(function() {
+        alert("Hello");
+    })
+});
 
