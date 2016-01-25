@@ -28,11 +28,11 @@ a{
 
 header{
 	padding:30px 20px;
-	background:#f4f4f4;
+	background-color: #27a772;
 }
 
 header h1{
-	color:#000;
+	color:#fff;
 	margin-bottom:5px;
 }
 
@@ -120,9 +120,15 @@ footer{
 	border:solid #ccc 1px;
 }
 
+.list-left h3{
+	color: #239660;
+	margin-bottom: 10px;
+}
+
 .list-right{
 	float:right;
 	width:78%;
+	margin-top: 30px;
 }
 
 .cTitle{
@@ -131,14 +137,24 @@ footer{
 
 .button-container{
 	margin-top:25px;
+	border: 2px solid #ff0000;
+	/*float: left;*/
 }
 
 .paging-button{
 	background:#f4f4f4;
 	padding:8px 13px;
 	border:#ccc 1px solid;
-	border-radius:5px;
 	color:#333;
-	margin:10px;
+	margin:10px 0px 10px 0px;
 	cursor:pointer;
+	float: left;
 }
+
+.paging-button:hover{
+	background-color:rgba(0,0,0,0.5);
+}
+
+
+
+

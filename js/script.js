@@ -1,146 +1,102 @@
-function search(){
+var modularpattern = (function () {
+	
 	// Clear Results
 	$('#results').html('');
 	$('#buttons').html('');
-	
+	this.issuesArray = [];
 	// Get Form Input
 	q = $('#query').val();
 	// Run GET Request on API
+	var win = this;
 	$.get(
 		"https://api.github.com/repos/npm/npm/issues",{
 		q: q},
 		function(data){
 
-			console.log(data);
-
+			var issues = [];
 			$.each(data, function(i, item){
-				// console.log(item);
-				var output = getOutput(item);
+				issues.push(item);
 			});
+		win.issuesArray = issues;
+		//console.log(win);
+		var total_number_issues = win.issuesArray.length;
+		var number_pages = Math.ceil(total_number_issues/25);
+		modularpattern.displayPages(1);
+		showPagingButtons(number_pages);
+	});
+
+	
+	return {
+		displayPages: function (page_number) {
+
+		var counter = 0;
+		var startingIndex = (page_number - 1) * 25;
+		$('#results').html("");
+
+		for (var i = startingIndex; i < win.issuesArray.length; i++) {
+			counter++
+
+			// Get Output
+			var output = getOutput(win.issuesArray[i]);
+
+			// Display Results
+			$('#results').append(output);
+
+			if (counter == 25) {
+				break;
+			} 
+		};
+		counter = 0;
 		}
-	);
-}
+	};
 
-search();
+	// Build Output
+	function getOutput(item){
+		var issue_number = item.number;
+		var issue_title = item.title;
+		var issue_labels = item.labels;
+		var user_name = item.user.login;
+		var user_avatar_url = item.user.avatar_url;
+		var body = charlimit(item.body);
 
-// Next Page Function
-function nextPage(){
-	var token = $('#next-button').data('token');
-	var q = $('#next-button').data('query');
+		//Build Output String
+		var output = '<li>' +
+		'<div class="list-left">' +
+		'<h3>'+user_name+'</h3>' +
+		'<img src="'+user_avatar_url+'">' +
+		'</div>' +
 
-	// Clear Results
-	$('#results').html('');
-	$('#buttons').html('');
-	
-	// Get Form Input
-	q = $('#query').val();
-	
-	// Run GET Request on API
-	$.get(
-		"https://www.googleapis.com/youtube/v3/search",{
-			part: 'snippet, id',
-			q: q,
-			pageToken: token,
-			type:'video',
-			key: 'AIzaSyBknbsUfzaw5EBPn-uYV1URQhGXGCvljXs'},
-			function(data){
-				var nextPageToken = data.nextPageToken;
-				var prevPageToken = data.prevPageToken;
-				
-				// Log Data
-				console.log(data);
-				
-				$.each(data.items, function(i, item){
-					// Get Output
-					var output = getOutput(item);
-					
-					// Display Results
-					$('#results').append(output);
-				});
-				
-				var buttons = getButtons(prevPageToken, nextPageToken);
-				
-				// Display Buttons
-				$('#buttons').append(buttons);
-			}
-	);
-}
-
-
-// Prev Page Function
-function prevPage(){
-	var token = $('#prev-button').data('token');
-	var q = $('#prev-button').data('query');
-
-	// Clear Results
-	$('#results').html('');
-	$('#buttons').html('');
-	
-	// Get Form Input
-	q = $('#query').val();
-	
-	// Run GET Request on API
-	$.get(
-		"https://www.googleapis.com/youtube/v3/search",{
-			part: 'snippet, id',
-			q: q,
-			pageToken: token,
-			type:'video',
-			key: 'AIzaSyBknbsUfzaw5EBPn-uYV1URQhGXGCvljXs'},
-			function(data){
-				var nextPageToken = data.nextPageToken;
-				var prevPageToken = data.prevPageToken;
-				
-				// Log Data
-				console.log(data);
-				
-				$.each(data.items, function(i, item){
-					// Get Output
-					var output = getOutput(item);
-					
-					// Display Results
-					$('#results').append(output);
-				});
-				
-				var buttons = getButtons(prevPageToken, nextPageToken);
-				
-				// Display Buttons
-				$('#buttons').append(buttons);
-			}
-	);
-}
-
-// Build Output
-function getOutput(item){
-	var issue_number = item.number;
-	var issue_title = item.title;
-	var issue_labels = item.labels;
-	var user_name = item.user.login;
-	var user_avatar_url = item.user.avatar_url;
-	console.log(item.body);
-
-	
-}
-
-// Build the buttons
-function getButtons(prevPageToken, nextPageToken){
-	if(!prevPageToken){
-		var btnoutput = '<div class="button-container">'+'<button id="next-button" class="paging-button" data-token="'+nextPageToken+'" data-query="'+q+'"' +
-		'onclick="nextPage();">Next Page</button></div>';
-	} else {
-		var btnoutput = '<div class="button-container">'+
-		'<button id="prev-button" class="paging-button" data-token="'+prevPageToken+'" data-query="'+q+'"' +
-		'onclick="prevPage();">Prev Page</button>' +
-		'<button id="next-button" class="paging-button" data-token="'+nextPageToken+'" data-query="'+q+'"' +
-		'onclick="nextPage();">Next Page</button></div>';
+		'<div class="list-right">' +
+		'<h3>'+issue_title+'</h3>' +
+		'<small>Issue Number: '+issue_number+'</small><br/>' +
+		'<small>Labels: '+issue_labels+'</small><br/>' +
+		'<small>Issue: '+body+'</small><br/>' +
+		'</div>' +
+		
+		'<div class="clearfix"></div>' +
+		'';
+		
+		return output;
 	}
-	
-	return btnoutput;
-}
+
+	// Get first 140 characters of the body
+	function charlimit(str) {
+		if (str.length > 140) {
+	    	str = str.substring(0, 140);
+	    	str = str.substr(0, Math.min(str.length, str.lastIndexOf(" "))) + " ...";
+	    	return str;
+		}
+	}
+
+	// Build the buttons
+	function showPagingButtons(pages){
+		for (var i = 1; i <= pages; i++) {
+			var buttons = '<div>'+'<button class="paging-button" onclick="modularpattern.displayPages('+i+')">'+i+'</button></div>';
+			$('#buttons').append(buttons);
+		};
+	}
+})();
 
 
-
-
-
-
+console.log(modularpattern);
 
