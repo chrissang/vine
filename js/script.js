@@ -22,6 +22,16 @@ var modularpattern = (function () {
 
 		modularpattern.displayPages(1);
 		showPagingButtons(number_pages);
+
+		$('.paging-button').click(function(event) {
+			modularpattern.displayPages($(this).text());
+			
+			//var targetButton = document.getElementById($(this));
+			$('.paging-button').removeClass("paging-button-active")
+			
+			$(this).addClass("paging-button-active")
+			console.log($(this));
+		});
 	});
 	
 	return {
@@ -149,10 +159,12 @@ var modularpattern = (function () {
 
 	// Build the buttons
 	function showPagingButtons(pages){
-		for (var i = 1; i <= pages; i++) {
-			var buttons = '<div>'+'<button class="paging-button" onclick="modularpattern.displayPages('+i+')">'+i+'</button></div>';
-			$('#buttons').append(buttons);
-		};
+		var totalPages = {
+			pages: pages
+		}
+		var compiledPagingButtons = _.template($('#pagingButtons_template').html());
+		var buttons = compiledPagingButtons({items:totalPages});
+		$('#buttons').append(buttons);
 	}
 })();
 

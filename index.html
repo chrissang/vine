@@ -4,6 +4,8 @@
 		<title>Git Issues</title>
 		<link rel="stylesheet" href="css/style.css">
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 	</head>
 	<body>
 		<div id="container">
@@ -27,7 +29,6 @@
 			<% _.each(items, function(item, key, list) { %>
 			<li class="list_item">
 				<div class="list-left">
-					
 					<% if (item.user_name != null) { %>
     					<h3><%= item.user_name %></h3>
 					<% } else { %>
@@ -42,8 +43,6 @@
 				</div>
 
 				<div class="list-right">
-					
-
 					<% if (item.issue_title != null) { %>
     					<h3> <%= item.issue_title %> </h3>
 					<% } else { %>
@@ -52,26 +51,39 @@
 
 					
 					<% if (item.issue_number != null) { %>
-    					<small> Issue number: <%= item.issue_number %> </small><br/>
+    					<small> <span>Issue number:</span> <%= item.issue_number %> </small><br/>
 					<% } else { %>
     
 					<% } %>
 					
 					<% if (item.issue_labels != null) { %>
-    					<small> Labels: <%= item.issue_labels %> </small><br/>
+    					<small> <span>Labels:</span> <%= item.issue_labels %> </small><br/>
 					<% } else { %>
     
 					<% } %>
 
 
 					<% if (item.body != null) { %>
-    					<small> Issue: <%= item.body %> </small><br/>
+    					<small> <span>Issue:</span> <%= item.body %> </small><br/>
 					<% } else { %>
     
 					<% } %>
-					
 				</div>
 			</li>
+			<% }); %>
+		</script>
+
+		<script type="text/html" id="pagingButtons_template">
+			<% _.each(items, function(item, key, list) { %>
+				<% for(var i = 1; i <= item; ++i) { %>
+					
+					<% if (i == 1) { %>
+    					<button class="paging-button paging-button-active"> <%= i %> </button>
+					<% } else { %>
+    					<button class="paging-button"> <%= i %> </button>
+					<% } %>
+
+				<% } %>
 			<% }); %>
 		</script>
 	</body>

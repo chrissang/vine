@@ -8,7 +8,7 @@ body{
 	line-height:1.6em;
 	color:#666;
 	background:#e1e1e1 url(../img/creampaper.png);
-	font-size:14px;
+	font-size:16px;
 }
 
 a{
@@ -17,7 +17,7 @@ a{
 }
 
 #container{
-	width:740px;
+	width:100%;
 	background:#fff;
 	margin:auto;
 }
@@ -76,12 +76,19 @@ footer{
 .list-left h3{
 	color: #239660;
 	margin-bottom: 10px;
+	font-size: 13px;
 }
 
 .list-right{
 	float:right;
-	width:75%;
+	width:70%;
 	margin-top: 30px;
+	overflow-wrap: break-word;
+	word-wrap: break-word;
+}
+
+.list-right h3{
+	font-size: 13px;
 }
 
 .paging-button{
@@ -100,15 +107,25 @@ footer{
 	color: #fff
 }
 
-.paging-button:focus{
+.paging-button-active{
 	background-color: #239660;
 	color: #fff
+}
+
+small span{
+	color: #239660;
+	font-weight: bold;
+	font-size: 12px;
 }
 
 .comments {
 	float: left;
 	margin-top: 20px;
 	width: 100%;
+}
+
+.comments h3{
+	font-size: 16px;
 }
 
 .comments-list{
@@ -127,6 +144,7 @@ footer{
 
 .comments-list-left h3{
 	color: #239660;
+	font-size: 13px;
 }
 
 .comments-list-left img{
@@ -137,16 +155,34 @@ footer{
 
 .comments-list-right{
 	float:right;
-	width:85%;
+	width:80%;
 	margin-top: 20px;
+	overflow-wrap: break-word;
+	word-wrap: break-word;
 }
-
-
 
 /* Custom, iPhone Retina */ 
 @media only screen and (min-width : 320px) {
     #container{
 		width: 100%;
+	}
+	.list-right h3{
+		font-size: 13px;
+	}
+	small span{
+		font-size: 12px;
+	}
+	.list-right {
+		width: 70%;
+	}
+	.list-left h3{
+		font-size: 14px;
+	}
+	.comments-list-left h3{
+		font-size: 13px;
+	}
+	.comments-list-right{
+		width:80%;
 	}
 }
 
@@ -155,12 +191,45 @@ footer{
 	#container{
 		width: 100%;
 	}
+	.list-right h3{
+		font-size: 13px;
+	}
+	small span{
+		font-size: 12px;
+	}
+	.list-right {
+		width: 75%;
+	}
+	.list-left h3{
+		font-size: 16px;
+	}
+	.comments-list-left h3{
+		font-size: 16px;
+	}
+	.comments-list-right{
+		width:82%;
+	}
 }
 
 /* Small Devices, Tablets */
 @media only screen and (min-width : 768px) {
 	#container{
 		width:740px;
+	}
+	.list-right h3{
+		font-size: 18px;
+	}
+	small span{
+		font-size: 14px;
+	}
+	.list-right {
+		width: 75%;
+	}
+	.comments-list-left h3{
+		font-size: 16px;
+	}
+	.comments-list-right{
+		width:85%;
 	}
 }
 
@@ -169,11 +238,41 @@ footer{
 	#container{
 		width:740px;
 	}
+	.list-right h3{
+		font-size: 18px;
+	}
+	small span{
+		font-size: 14px;
+	}
+	.list-right {
+		width: 75%;
+	}
+	.comments-list-left h3{
+		font-size: 16px;
+	}
+	.comments-list-right{
+		width:85%;
+	}
 }
 
 /* Large Devices, Wide Screens */
 @media only screen and (min-width : 1200px) {
 	#container{
 		width:740px;
+	}
+	.list-right h3{
+		font-size: 18px;
+	}
+	small span{
+		font-size: 14px;
+	}
+	.list-right {
+		width: 75%;
+	}
+	.comments-list-left h3{
+		font-size: 16px;
+	}
+	.comments-list-right{
+		width:85%;
 	}
 }
