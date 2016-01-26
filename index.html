@@ -21,58 +21,42 @@
 				<p>Copyright &copy; 2016, All Rights Reserved</p>
 			</footer>
 		</div>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		<script src="js/jquery1.11.1.min.js"></script>
 		<script src="js/underscore-min.js"></script>
 		<script src="js/script.js"></script>
-
 		<script type="text/html" id="issues_template">
 			<% _.each(items, function(item, key, list) { %>
 			<li class="list_item">
 				<div class="list-left">
 					<% if (item.user_name != null) { %>
     					<h3><%= item.user_name %></h3>
-					<% } else { %>
-    
 					<% } %>
 
 					<% if (item.user_avatar_url != null) { %>
     					<img src=<%= item.user_avatar_url %></img>
-					<% } else { %>
-    
 					<% } %>
 				</div>
 
 				<div class="list-right">
 					<% if (item.issue_title != null) { %>
     					<h3> <%= item.issue_title %> </h3>
-					<% } else { %>
-    
 					<% } %>
-
 					
 					<% if (item.issue_number != null) { %>
     					<small> <span>Issue number:</span> <%= item.issue_number %> </small><br/>
-					<% } else { %>
-    
 					<% } %>
 					
 					<% if (item.issue_labels != null) { %>
     					<small> <span>Labels:</span> <%= item.issue_labels %> </small><br/>
-					<% } else { %>
-    
 					<% } %>
-
 
 					<% if (item.body != null) { %>
     					<small> <span>Issue:</span> <%= item.body %> </small><br/>
-					<% } else { %>
-    
 					<% } %>
 				</div>
 			</li>
 			<% }); %>
 		</script>
-
 		<script type="text/html" id="pagingButtons_template">
 			<% _.each(items, function(item, key, list) { %>
 				<% for(var i = 1; i <= item; ++i) { %>

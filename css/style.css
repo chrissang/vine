@@ -51,6 +51,7 @@ footer{
 	border-bottom:1px #ccc dotted;
 	list-style:none;
 	overflow:auto;
+	cursor:pointer;
 }
 
 #details li{
@@ -156,7 +157,9 @@ small span{
 .comments-list-right{
 	float:right;
 	width:80%;
-	margin-top: 20px;
+	margin-top: 35px;
+	padding: 0px 20px 20px 20px;
+	box-sizing: border-box;
 	overflow-wrap: break-word;
 	word-wrap: break-word;
 }

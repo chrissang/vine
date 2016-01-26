@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Ditail Issues</title>
+		<title>Detail Issue</title>
 		<link rel="stylesheet" href="css/style.css">
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	</head>
@@ -17,7 +17,7 @@
 				<p>Copyright &copy; 2016, All Rights Reserved</p>
 			</footer>
 		</div>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		<script src="js/jquery1.11.1.min.js"></script>
 		<script src="js/underscore-min.js"></script>
 		<script src="js/script.js"></script>
 		<script type="text/html" id="details_template">
@@ -27,40 +27,28 @@
 					
 					<% if (item.detail_issue_user_name != null) { %>
     					<h3><%= item.detail_issue_user_name %></h3>
-					<% } else { %>
-    
 					<% } %>
 
 					<% if (item.detail_issue_user_avatar_url != null) { %>
     					<img src=<%= item.detail_issue_user_avatar_url %> ></img>
-					<% } else { %>
-    
 					<% } %>
 				</div>
 
 				<div class="list-right">
 					<% if (item.detail_issue_title != null) { %>
     					<h3> <%= item.detail_issue_title %> </h3>
-					<% } else { %>
-    
 					<% } %>
 					
 					<% if (item.detail_issue_state != null) { %>
     					<small><span>State:</span> <%= item.detail_issue_state %> </small><br/>
-					<% } else { %>
-    
 					<% } %>
 
 					<% if (item.detail_issue_labels != null) { %>
     					<small> <span>Labels:</span> <%= item.detail_issue_labels %> </small><br/>
-					<% } else { %>
-    
 					<% } %>
 
 					<% if (item.detail_issue_full_body != null) { %>
     					<small><span>Issue:</span> <%= item.detail_issue_full_body %> </small><br/>
-					<% } else { %>
-    
 					<% } %>
 				</div>
 
@@ -73,31 +61,21 @@
 
 							 		<% if (item.detail_issue_comments[i].commentName != null) { %>
 				    					<h3><%= item.detail_issue_comments[i].commentName %></h3>
-									<% } else { %>
-				    
 									<% } %>
 
 									<% if (item.detail_issue_comments[i].commentAvatar != null) { %>
 				    					<img src=<%= item.detail_issue_comments[i].commentAvatar %> ></img>
-									<% } else { %>
-				    
 									<% } %>
 							 	</div>
 
 							 	<div class="comments-list-right">
 							 		<% if (item.detail_issue_comments[i].commentBody != null) { %>
 				    					<small><%= item.detail_issue_comments[i].commentBody %></small>
-									<% } else { %>
-				    
 									<% } %>
 							 	</div>
 						 	</li>
-						 	
 					    <% } %>
-					<% } else { %>
-
 					<% } %>
-					
 				</div>
 			</li>
 			<% }); %>
