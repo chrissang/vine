@@ -36,10 +36,6 @@ header h1{
 	margin-bottom:5px;
 }
 
-/*header span{
-	color:#dd2826;
-}*/
-
 section{
 	padding:30px 20px 20px 20px;
 }
@@ -50,13 +46,6 @@ footer{
 	text-align:center;
 }
 
-/*.title {
-	font-size: 16px;
-	font-weight: bold;
-	color: #666;
-}
-*/
-
 #results li{
 	padding:10px 0;
 	border-bottom:1px #ccc dotted;
@@ -65,9 +54,12 @@ footer{
 }
 
 #details li{
+	overflow:auto;
+}
+
+.list_item{
 	padding:10px 0;
 	list-style:none;
-	overflow:auto;
 }
 
 .list-left{
@@ -111,6 +103,42 @@ footer{
 .paging-button:focus{
 	background-color: #239660;
 	color: #fff
+}
+
+.comments {
+	float: left;
+	margin-top: 20px;
+	width: 100%;
+}
+
+.comments-list{
+	border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 0px;
+    margin: 10px 0px 0px 0px;
+    list-style:none;
+}
+
+.comments-list-left {
+	float:left;
+	width:10%;
+	padding: 10px 0px 10px 10px;
+}
+
+.comments-list-left h3{
+	color: #239660;
+}
+
+.comments-list-left img{
+	width:100%;
+	padding:3px;
+	border:solid #ccc 1px;
+}
+
+.comments-list-right{
+	float:right;
+	width:85%;
+	margin-top: 20px;
 }
 
 

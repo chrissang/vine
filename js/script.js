@@ -16,7 +16,6 @@ var modularpattern = (function () {
 				issues.push(item);
 			});
 		win.issuesArray = issues;
-		//console.log(win);
 
 		var total_number_issues = win.issuesArray.length;
 		var number_pages = Math.ceil(total_number_issues/25);
@@ -51,39 +50,38 @@ var modularpattern = (function () {
 				break;
 			} 
 		};
+		counter = 0;
+
 		$('li').click(function(event) {
 
 			var detailItems = [
 				{
-					detail_issue_title: win.issuesArray[$(this).index()].title,
-					detail_issue_state: win.issuesArray[$(this).index()].state,
-					detail_issue_labels: getLabels(win.issuesArray[$(this).index()].labels),
-					detail_issue_user_name: win.issuesArray[$(this).index()].user.login,
-					detail_issue_user_avatar_url: win.issuesArray[$(this).index()].user.avatar_url,
-					detail_issue_full_body: win.issuesArray[$(this).index()].body,
-					detail_issue_comments_number: win.issuesArray[$(this).index()].comments,
-					detail_issue_comments_url: getComments(win.issuesArray[$(this).index()].comments_url)
+					detail_issue_title: win.issuesArray[$(this).index()+startingIndex].title,
+					detail_issue_state: win.issuesArray[$(this).index()+startingIndex].state,
+					detail_issue_labels: getLabels(win.issuesArray[$(this).index()+startingIndex].labels),
+					detail_issue_user_name: win.issuesArray[$(this).index()+startingIndex].user.login,
+					detail_issue_user_avatar_url: win.issuesArray[$(this).index()+startingIndex].user.avatar_url,
+					detail_issue_full_body: win.issuesArray[$(this).index()+startingIndex].body,
+					detail_issue_comments_number: win.issuesArray[$(this).index()+startingIndex].comments,
+					detail_issue_comments_url: getComments(win.issuesArray[$(this).index()+startingIndex].comments_url)
 				}
 			]
-			//console.log(win.issuesArray[$(this).index()]);
-			//console.log(detailItems);
+
+			var dataDetailComments = sessionStorage.getItem('detailComments');
+			var viewDataDetailComments = $.parseJSON(dataDetailComments);
+
+			detailItems[0].detail_issue_comments = viewDataDetailComments;
+	
 			sessionStorage.setItem('details', JSON.stringify(detailItems));
 			
 			window.open('details.html');
 		});
 
-		counter = 0;
+		
 		},
 		getDetailOutput: function () {
-			console.log('getDetailOutput');
 			var dataDetails = sessionStorage.getItem('details');
 			var viewData = $.parseJSON(dataDetails);
-
-			var dataDetailComments = sessionStorage.getItem('detailComments');
-			var viewDataDetailComments = $.parseJSON(dataDetailComments);
-			console.log(viewDataDetailComments);
-			//console.log(viewData);
-			//console.log(viewData[0].detail_issue_comments_url);
 
 			var compiledDetails = _.template($('#details_template').html());
 			var details = compiledDetails({items:viewData});
@@ -91,20 +89,25 @@ var modularpattern = (function () {
 			$('#details').append(details);
 		}
 	};
-
+	// Get comments
 	function getComments(url){
-		$.get(
-		url,{
-		q: q},
-		function(data){
-			var comments = [];
-			for (var i = 0; i < data.length; i++) {
-				//console.log(data[i].body);	
-				comments.push(data[i].body);
+		$.ajax({ 
+		url: url, 
+		async: false,
+		dataType: 'json',
+			success: function(data) {
+				var comments = [];
+				for (var i = 0; i < data.length; i++) {
+					comments.push(
+						{
+							commentName: data[i].user.login,
+							commentAvatar: data[i].user.avatar_url,
+							commentBody: data[i].body
+						}
+					);
+				}
+				sessionStorage.setItem('detailComments', JSON.stringify(comments));
 			}
-			//console.log(comments);
-			sessionStorage.setItem('detailComments', JSON.stringify(comments));
-			//return comments;
 		});
 	}
 
@@ -137,8 +140,7 @@ var modularpattern = (function () {
 	function getLabels(labels) {
 		if (labels.length > 0) {
 			var labelArray = [];
-			for (var i = 0; i < labels.length; i++) {
-				//console.log(labels[i].name);	
+			for (var i = 0; i < labels.length; i++) {	
 				labelArray.push(labels[i].name);
 			}
 			return labelArray;

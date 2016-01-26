@@ -62,13 +62,41 @@
 					<% } else { %>
     
 					<% } %>
+				</div>
 
+				<div class="comments">
 					<% if (item.detail_issue_comments_number != 0) { %>
-    					<small>Comments: <%= item.detail_issue_comments_url %> </small><br/>
-					<% } else { %>
-    
-					<% } %>
+						<h3>Comments</h3>
+						 <% for(var i = 0; i < item.detail_issue_comments.length; ++i) { %>
+						 	<li class="comments-list">
+							 	<div class="comments-list-left">
 
+							 		<% if (item.detail_issue_comments[i].commentName != null) { %>
+				    					<h3><%= item.detail_issue_comments[i].commentName %></h3>
+									<% } else { %>
+				    
+									<% } %>
+
+									<% if (item.detail_issue_comments[i].commentAvatar != null) { %>
+				    					<img src=<%= item.detail_issue_comments[i].commentAvatar %> ></img>
+									<% } else { %>
+				    
+									<% } %>
+							 	</div>
+
+							 	<div class="comments-list-right">
+							 		<% if (item.detail_issue_comments[i].commentBody != null) { %>
+				    					<small><%= item.detail_issue_comments[i].commentBody %></small>
+									<% } else { %>
+				    
+									<% } %>
+							 	</div>
+						 	</li>
+						 	
+					    <% } %>
+					<% } else { %>
+
+					<% } %>
 					
 				</div>
 			</li>
