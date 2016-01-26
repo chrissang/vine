@@ -36,9 +36,9 @@ header h1{
 	margin-bottom:5px;
 }
 
-header span{
+/*header span{
 	color:#dd2826;
-}
+}*/
 
 section{
 	padding:30px 20px 20px 20px;
@@ -50,9 +50,22 @@ footer{
 	text-align:center;
 }
 
+/*.title {
+	font-size: 16px;
+	font-weight: bold;
+	color: #666;
+}
+*/
+
 #results li{
 	padding:10px 0;
 	border-bottom:1px #ccc dotted;
+	list-style:none;
+	overflow:auto;
+}
+
+#details li{
+	padding:10px 0;
 	list-style:none;
 	overflow:auto;
 }

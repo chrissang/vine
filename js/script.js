@@ -44,7 +44,6 @@ var modularpattern = (function () {
 			// Display Results
 			var d = compiled({items:output});
 
-			
 			$('#results').append(d);
 
 			// Limit results per page
@@ -58,36 +57,56 @@ var modularpattern = (function () {
 				{
 					detail_issue_title: win.issuesArray[$(this).index()].title,
 					detail_issue_state: win.issuesArray[$(this).index()].state,
-					detail_issue_labels: win.issuesArray[$(this).index()].labels,
+					detail_issue_labels: getLabels(win.issuesArray[$(this).index()].labels),
 					detail_issue_user_name: win.issuesArray[$(this).index()].user.login,
 					detail_issue_user_avatar_url: win.issuesArray[$(this).index()].user.avatar_url,
 					detail_issue_full_body: win.issuesArray[$(this).index()].body,
-					detail_issue_full_comments: win.issuesArray[$(this).index()].comments
+					detail_issue_comments_number: win.issuesArray[$(this).index()].comments,
+					detail_issue_comments_url: getComments(win.issuesArray[$(this).index()].comments_url)
 				}
 			]
-			// console.log($(this).index());
-			console.log(win.issuesArray[$(this).index()]);
-			// console.log(win.issuesArray[$(this).index()].title);
-			// console.log(win.issuesArray[$(this).index()].state);
-			// console.log(win.issuesArray[$(this).index()].labels);
-			// console.log(win.issuesArray[$(this).index()].user.login);
-			// console.log(win.issuesArray[$(this).index()].user.avatar_url);
-			// console.log(win.issuesArray[$(this).index()].body);
-			// console.log(win.issuesArray[$(this).index()].comments);
-
+			//console.log(win.issuesArray[$(this).index()]);
+			//console.log(detailItems);
+			sessionStorage.setItem('details', JSON.stringify(detailItems));
 			
-			//window.open(location);
-			var popup = window.open('details.html');
-			$(popup.document).load(function() {
-    			console.log(('loaded'));
-    			// do other things
-			});
-			//modularpattern.displayDetailPages(detailItems);
+			window.open('details.html');
 		});
 
 		counter = 0;
+		},
+		getDetailOutput: function () {
+			console.log('getDetailOutput');
+			var dataDetails = sessionStorage.getItem('details');
+			var viewData = $.parseJSON(dataDetails);
+
+			var dataDetailComments = sessionStorage.getItem('detailComments');
+			var viewDataDetailComments = $.parseJSON(dataDetailComments);
+			console.log(viewDataDetailComments);
+			//console.log(viewData);
+			//console.log(viewData[0].detail_issue_comments_url);
+
+			var compiledDetails = _.template($('#details_template').html());
+			var details = compiledDetails({items:viewData});
+
+			$('#details').append(details);
 		}
 	};
+
+	function getComments(url){
+		$.get(
+		url,{
+		q: q},
+		function(data){
+			var comments = [];
+			for (var i = 0; i < data.length; i++) {
+				//console.log(data[i].body);	
+				comments.push(data[i].body);
+			}
+			//console.log(comments);
+			sessionStorage.setItem('detailComments', JSON.stringify(comments));
+			//return comments;
+		});
+	}
 
 	// Build Output
 	function getOutput(item){
@@ -96,19 +115,13 @@ var modularpattern = (function () {
 			{
 				issue_number: item.number,
 				issue_title: item.title,
-				issue_labels: item.labels,
+				issue_labels: getLabels(item.labels),
 				user_name: item.user.login,
 				user_avatar_url: item.user.avatar_url,
 				body: charlimit(item.body)
 			}
 		]
 		return items;		
-	}
-
-	// Build Output
-	function getDetailOutput(){
-
-		
 	}
 	
 	// Get first 140 characters of the body
@@ -120,6 +133,18 @@ var modularpattern = (function () {
 		}
 	}
 
+	// Get labels
+	function getLabels(labels) {
+		if (labels.length > 0) {
+			var labelArray = [];
+			for (var i = 0; i < labels.length; i++) {
+				//console.log(labels[i].name);	
+				labelArray.push(labels[i].name);
+			}
+			return labelArray;
+		}
+	}
+
 	// Build the buttons
 	function showPagingButtons(pages){
 		for (var i = 1; i <= pages; i++) {
@@ -128,10 +153,4 @@ var modularpattern = (function () {
 		};
 	}
 })();
-
-$(document).ready(function() {
-    $('#list_item').click(function() {
-        alert("Hello");
-    })
-});
 

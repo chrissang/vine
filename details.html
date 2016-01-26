@@ -5,7 +5,7 @@
 		<link rel="stylesheet" href="css/style.css">
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	</head>
-	<body>
+	<body onload="modularpattern.getDetailOutput()">
 		<div id="container">
 			<header>
 				<h1>Details</h1>
@@ -20,19 +20,56 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 		<script src="js/underscore-min.js"></script>
 		<script src="js/script.js"></script>
-		<script type="text/html" id="issues_template">
+		<script type="text/html" id="details_template">
 			<% _.each(items, function(item, key, list) { %>
 			<li class="list_item">
 				<div class="list-left">
-					<h3><%= item.user_name %></h3>
-					<img src=<%= item.user_avatar_url %></img>
+					
+					<% if (item.detail_issue_user_name != null) { %>
+    					<h3><%= item.detail_issue_user_name %></h3>
+					<% } else { %>
+    
+					<% } %>
+
+					<% if (item.detail_issue_user_avatar_url != null) { %>
+    					<img src=<%= item.detail_issue_user_avatar_url %> ></img>
+					<% } else { %>
+    
+					<% } %>
 				</div>
 
 				<div class="list-right">
-					<h3><%= item.issue_title %></h3>
-					<small>Issue Number: <%= item.issue_number %> </small><br/>
-					<small>Labels: <%= item.issue_labels %> </small><br/>
-					<small>Issue: <%= item.body %> </small><br/>
+					<% if (item.detail_issue_title != null) { %>
+    					<h3> <%= item.detail_issue_title %> </h3>
+					<% } else { %>
+    
+					<% } %>
+					
+					<% if (item.detail_issue_state != null) { %>
+    					<small>State: <%= item.detail_issue_state %> </small><br/>
+					<% } else { %>
+    
+					<% } %>
+
+					<% if (item.detail_issue_labels != null) { %>
+    					<small> Labels: <%= item.detail_issue_labels %> </small><br/>
+					<% } else { %>
+    
+					<% } %>
+
+					<% if (item.detail_issue_full_body != null) { %>
+    					<small>Issue: <%= item.detail_issue_full_body %> </small><br/>
+					<% } else { %>
+    
+					<% } %>
+
+					<% if (item.detail_issue_comments_number != 0) { %>
+    					<small>Comments: <%= item.detail_issue_comments_url %> </small><br/>
+					<% } else { %>
+    
+					<% } %>
+
+					
 				</div>
 			</li>
 			<% }); %>
