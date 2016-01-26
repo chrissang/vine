@@ -137,6 +137,10 @@ small span{
     list-style:none;
 }
 
+.comments-list-left a{
+	cursor:pointer;
+}
+
 .comments-list-left {
 	float:left;
 	width:10%;

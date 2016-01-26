@@ -26,7 +26,6 @@ var modularpattern = (function () {
 		$('.paging-button').click(function(event) {
 			modularpattern.displayPages($(this).text());
 			
-			//var targetButton = document.getElementById($(this));
 			$('.paging-button').removeClass("paging-button-active")
 			
 			$(this).addClass("paging-button-active")
@@ -112,6 +111,7 @@ var modularpattern = (function () {
 						{
 							commentName: data[i].user.login,
 							commentAvatar: data[i].user.avatar_url,
+							commentUserLink: data[i].user.html_url,
 							commentBody: data[i].body
 						}
 					);
