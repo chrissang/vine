@@ -61,15 +61,6 @@ var modularpattern = (function () {
 
 			// Click function to launch detail page of issue clicked
 			$('li').click(function(event) {
-				//console.log(win.issuesArray[$(this).index()+startingIndex].user.login);
-				//console.log(win.issuesArray[$(this).index()]);
-				//console.log(startingIndex);
-				
-				console.log(win.issuesArray);
-				//console.log(win.issuesArray.length);
-				//console.log(win.issuesArray[$(this).index()]);
-				console.log($(this).index());
-
 				var detailItems = [
 					{
 						detail_issue_title: win.issuesArray[$(this).index()+startingIndex].title,

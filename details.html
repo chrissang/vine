@@ -47,37 +47,37 @@
     					<small> <span>Labels:</span> <%= item.detail_issue_labels %> </small><br/>
 					<% } %>
 
-					<% if (item.detail_issue_full_body != null) { %>
-    					<small><span>Issue:</span> <%= item.detail_issue_full_body %> </small><br/>
+					<% if (item.detail_issue_full_body != "") { %>
+    					<small><span>Issue:</span> <%= item.detail_issue_full_body %> </small>
 					<% } %>
 				</div>
 
-				<div class="comments">
-					<% if (item.detail_issue_comments_number != 0) { %>
-						<h3>Comments</h3>
-						 <% for(var i = 0; i < item.detail_issue_comments.length; ++i) { %>
-						 	<li class="comments-list">
-							 	<div class="comments-list-left">
+				<% if (item.detail_issue_comments_number != 0) { %>
+					<div class="comments">
+					<h3>Comments</h3>
+					 <% for(var i = 0; i < item.detail_issue_comments.length; ++i) { %>
+					 	<li class="comments-list">
+						 	<div class="comments-list-left">
 
-							 		<% if (item.detail_issue_comments[i].commentName != null) { %>
-							 			
-				    					<a href=<%= item.detail_issue_comments[i].commentUserLink %> target="_blank" ><h3>@<%= item.detail_issue_comments[i].commentName %></h3></a>
-									<% } %>
+						 		<% if (item.detail_issue_comments[i].commentName != null) { %>
+						 			
+			    					<a href=<%= item.detail_issue_comments[i].commentUserLink %> target="_blank" ><h3>@<%= item.detail_issue_comments[i].commentName %></h3></a>
+								<% } %>
 
-									<% if (item.detail_issue_comments[i].commentAvatar != null) { %>
-				    					<img src=<%= item.detail_issue_comments[i].commentAvatar %> ></img>
-									<% } %>
-							 	</div>
+								<% if (item.detail_issue_comments[i].commentAvatar != null) { %>
+			    					<img src=<%= item.detail_issue_comments[i].commentAvatar %> ></img>
+								<% } %>
+						 	</div>
 
-							 	<div class="comments-list-right">
-							 		<% if (item.detail_issue_comments[i].commentBody != null) { %>
-				    					<small><%= item.detail_issue_comments[i].commentBody %></small>
-									<% } %>
-							 	</div>
-						 	</li>
-					    <% } %>
-					<% } %>
-				</div>
+						 	<div class="comments-list-right">
+						 		<% if (item.detail_issue_comments[i].commentBody != null) { %>
+			    					<small><%= item.detail_issue_comments[i].commentBody %></small>
+								<% } %>
+						 	</div>
+					 	</li>
+				    <% } %>
+				    </div>
+				<% } %>
 			</li>
 			<% }); %>
 		</script>

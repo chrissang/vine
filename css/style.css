@@ -120,6 +120,16 @@ small span{
 	font-size: 12px;
 }
 
+.list-right p span{
+	color: #239660;
+	font-weight: bold;
+	font-size: 12px;
+}
+
+.list-right p{
+	font-size: 12px;
+}
+
 .comments {
 	float: left;
 	margin-top: 20px;
@@ -180,6 +190,9 @@ small span{
 	small span{
 		font-size: 12px;
 	}
+	.list-right p span{
+		font-size: 12px;
+	}
 	.list-right {
 		width: 70%;
 	}
@@ -206,6 +219,12 @@ small span{
 		font-size: 13px;
 	}
 	small span{
+		font-size: 12px;
+	}
+	.list-right p span{
+		font-size: 12px;
+	}
+	.list-right p{
 		font-size: 12px;
 	}
 	.list-right {
@@ -236,6 +255,12 @@ small span{
 	small span{
 		font-size: 14px;
 	}
+	.list-right p span{
+		font-size: 14px;
+	}
+	.list-right p{
+		font-size: 14px;
+	}
 	.list-right {
 		width: 75%;
 	}
@@ -261,6 +286,12 @@ small span{
 	small span{
 		font-size: 14px;
 	}
+	.list-right p{
+		font-size: 14px;
+	}
+	.list-right p span{
+		font-size: 14px;
+	}
 	.list-right {
 		width: 75%;
 	}
@@ -284,6 +315,12 @@ small span{
 		font-size: 18px;
 	}
 	small span{
+		font-size: 14px;
+	}
+	.list-right p{
+		font-size: 14px;
+	}
+	.list-right p span{
 		font-size: 14px;
 	}
 	.list-right {
