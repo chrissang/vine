@@ -26,73 +26,79 @@ var modularpattern = (function () {
 		$('.paging-button').click(function(event) {
 			modularpattern.displayPages($(this).text());
 			
-			$('.paging-button').removeClass("paging-button-active")
+			$('.paging-button').removeClass("paging-button-active");
 			
-			$(this).addClass("paging-button-active")
-			console.log($(this));
+			$(this).addClass("paging-button-active");
 		});
 	});
 	
 	return {
 		displayPages: function (page_number) {
+			var counter = 0;
+			var startingIndex = (page_number - 1) * 25;
+			$('#results').html("");
 
-		var counter = 0;
-		var startingIndex = (page_number - 1) * 25;
-		$('#results').html("");
+			//Underscore template
+			var compiled = _.template($('#issues_template').html());
 
-		//Underscore template
-		var compiled = _.template($('#issues_template').html());
+			for (var i = startingIndex; i < win.issuesArray.length; i++) {
+				counter++
 
-		for (var i = startingIndex; i < win.issuesArray.length; i++) {
-			counter++
+				// Get Output
+				var output = getOutput(win.issuesArray[i]);
 
-			// Get Output
-			var output = getOutput(win.issuesArray[i]);
+				// Display Results
+				var d = compiled({items:output});
 
-			// Display Results
-			var d = compiled({items:output});
+				$('#results').append(d);
 
-			$('#results').append(d);
+				// Limit results per page
+				if (counter == 25) {
+					break;
+				} 
+			};
+			counter = 0;
 
-			// Limit results per page
-			if (counter == 25) {
-				break;
-			} 
-		};
-		counter = 0;
+			// Click function to launch detail page of issue clicked
+			$('li').click(function(event) {
+				//console.log(win.issuesArray[$(this).index()+startingIndex].user.login);
+				//console.log(win.issuesArray[$(this).index()]);
+				//console.log(startingIndex);
+				
+				console.log(win.issuesArray);
+				//console.log(win.issuesArray.length);
+				//console.log(win.issuesArray[$(this).index()]);
+				console.log($(this).index());
 
-		$('li').click(function(event) {
+				var detailItems = [
+					{
+						detail_issue_title: win.issuesArray[$(this).index()+startingIndex].title,
+						detail_issue_state: win.issuesArray[$(this).index()+startingIndex].state,
+						detail_issue_labels: getLabels(win.issuesArray[$(this).index()+startingIndex].labels),
+						detail_issue_user_name: win.issuesArray[$(this).index()+startingIndex].user.login,
+						detail_issue_user_avatar_url: win.issuesArray[$(this).index()+startingIndex].user.avatar_url,
+						detail_issue_full_body: win.issuesArray[$(this).index()+startingIndex].body,
+						detail_issue_comments_number: win.issuesArray[$(this).index()+startingIndex].comments,
+						detail_issue_comments_url: getComments(win.issuesArray[$(this).index()+startingIndex].comments_url)
+					}
+				]
 
-			var detailItems = [
-				{
-					detail_issue_title: win.issuesArray[$(this).index()+startingIndex].title,
-					detail_issue_state: win.issuesArray[$(this).index()+startingIndex].state,
-					detail_issue_labels: getLabels(win.issuesArray[$(this).index()+startingIndex].labels),
-					detail_issue_user_name: win.issuesArray[$(this).index()+startingIndex].user.login,
-					detail_issue_user_avatar_url: win.issuesArray[$(this).index()+startingIndex].user.avatar_url,
-					detail_issue_full_body: win.issuesArray[$(this).index()+startingIndex].body,
-					detail_issue_comments_number: win.issuesArray[$(this).index()+startingIndex].comments,
-					detail_issue_comments_url: getComments(win.issuesArray[$(this).index()+startingIndex].comments_url)
-				}
-			]
+				var dataDetailComments = sessionStorage.getItem('detailComments');
+				var viewDataDetailComments = $.parseJSON(dataDetailComments);
 
-			var dataDetailComments = sessionStorage.getItem('detailComments');
-			var viewDataDetailComments = $.parseJSON(dataDetailComments);
+				detailItems[0].detail_issue_comments = viewDataDetailComments;
 
-			detailItems[0].detail_issue_comments = viewDataDetailComments;
-	
-			sessionStorage.setItem('details', JSON.stringify(detailItems));
-			
-			window.open('details.html');
-		});
-
-		
+				//Stores data of issue clicked to display on details page
+				sessionStorage.setItem('details', JSON.stringify(detailItems));
+				
+				window.open('details.html');
+			});
 		},
+		// Gets stored data to display on details page
 		getDetailOutput: function () {
+			var compiledDetails = _.template($('#details_template').html());
 			var dataDetails = sessionStorage.getItem('details');
 			var viewData = $.parseJSON(dataDetails);
-
-			var compiledDetails = _.template($('#details_template').html());
 			var details = compiledDetails({items:viewData});
 
 			$('#details').append(details);
@@ -123,7 +129,6 @@ var modularpattern = (function () {
 
 	// Build Output
 	function getOutput(item){
-
 		var items = [
 			{
 				issue_number: item.number,
